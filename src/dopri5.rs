@@ -1,5 +1,7 @@
 //! Explicit Runge-Kutta method with Dormand-Prince coefficients of order 5(4) and dense output of order 4.
 
+use alloc::vec;
+use alloc::vec::Vec;
 use crate::butcher_tableau::dopri54;
 use crate::controller::Controller;
 use crate::dop_shared::*;
@@ -57,7 +59,7 @@ where
     f64: From<T>,
     T: FloatNumber,
     F: System<T, OVector<T, D>>,
-    OVector<T, D>: std::ops::Mul<T, Output = OVector<T, D>>,
+    OVector<T, D>: core::ops::Mul<T, Output = OVector<T, D>>,
     DefaultAllocator: Allocator<D>,
 {
     /// Default initializer for the structure

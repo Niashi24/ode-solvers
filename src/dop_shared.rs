@@ -1,12 +1,13 @@
 //! Shared traits and structures for dopri5 and dop853.
 
+use alloc::fmt;
+use alloc::vec::Vec;
 use nalgebra::Scalar;
 use num_traits::{Float, FromPrimitive, NumCast, One, Zero};
 use simba::scalar::{
     ClosedAdd, ClosedAddAssign, ClosedDiv, ClosedDivAssign, ClosedMul, ClosedMulAssign, ClosedNeg,
     ClosedSub, ClosedSubAssign, SubsetOf,
 };
-use std::fmt;
 use thiserror::Error;
 
 /// Trait needed to be implemented by the user
@@ -140,12 +141,6 @@ impl Stats {
             accepted_steps: 0,
             rejected_steps: 0,
         }
-    }
-
-    /// Prints some statistics related to the integration process.
-    #[deprecated(since = "0.2.0", note = "Use std::fmt::Display instead")]
-    pub fn print(&self) {
-        println!("{}", self);
     }
 }
 

@@ -1,5 +1,9 @@
+#![no_std]
+
 //! # ODEs Solvers
 //! `ode-solvers` is a collection of numerical methods to solve ordinary differential equations (ODEs).
+
+extern crate alloc;
 
 // Re-export from external crate
 pub use crate::na::{

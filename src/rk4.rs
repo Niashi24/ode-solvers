@@ -1,5 +1,6 @@
 //! Explicit Runge-Kutta method of order 4 with fixed step size.
 
+use alloc::vec::Vec;
 use crate::dop_shared::{FloatNumber, IntegrationError, SolverResult, Stats, System};
 
 use nalgebra::{allocator::Allocator, DefaultAllocator, Dim, OVector};
@@ -26,7 +27,7 @@ impl<T, D: Dim, F> Rk4<T, OVector<T, D>, F>
 where
     T: FloatNumber,
     F: System<T, OVector<T, D>>,
-    OVector<T, D>: std::ops::Mul<T, Output = OVector<T, D>>,
+    OVector<T, D>: core::ops::Mul<T, Output = OVector<T, D>>,
     DefaultAllocator: Allocator<D>,
 {
     /// Default initializer for the structure
@@ -171,6 +172,7 @@ where
 
 #[cfg(test)]
 mod tests {
+    use alloc::vec;
     use crate::rk4::Rk4;
     use crate::{DVector, OVector, System, Vector1};
     use nalgebra::{allocator::Allocator, DefaultAllocator, Dim};
