@@ -178,46 +178,46 @@ mod tests {
     use nalgebra::{allocator::Allocator, DefaultAllocator, Dim};
 
     struct Test1 {}
-    impl<D: Dim> System<f64, OVector<f64, D>> for Test1
+    impl<D: Dim> System<f32, OVector<f32, D>> for Test1
     where
         DefaultAllocator: Allocator<D>,
     {
-        fn system(&self, x: f64, y: &OVector<f64, D>, dy: &mut OVector<f64, D>) {
+        fn system(&self, x: f32, y: &OVector<f32, D>, dy: &mut OVector<f32, D>) {
             dy[0] = (x - y[0]) / 2.;
         }
     }
 
     struct Test2 {}
-    impl<D: Dim> System<f64, OVector<f64, D>> for Test2
+    impl<D: Dim> System<f32, OVector<f32, D>> for Test2
     where
         DefaultAllocator: Allocator<D>,
     {
-        fn system(&self, x: f64, y: &OVector<f64, D>, dy: &mut OVector<f64, D>) {
+        fn system(&self, x: f32, y: &OVector<f32, D>, dy: &mut OVector<f32, D>) {
             dy[0] = -2. * x - y[0];
         }
     }
 
     struct Test3 {}
-    impl<D: Dim> System<f64, OVector<f64, D>> for Test3
+    impl<D: Dim> System<f32, OVector<f32, D>> for Test3
     where
         DefaultAllocator: Allocator<D>,
     {
-        fn system(&self, x: f64, y: &OVector<f64, D>, dy: &mut OVector<f64, D>) {
+        fn system(&self, x: f32, y: &OVector<f32, D>, dy: &mut OVector<f32, D>) {
             dy[0] = (5. * x * x - y[0]) / (x + y[0]).exp();
         }
     }
 
     // Same as Test3, but aborts after x is greater/equal than 0.5
     struct Test4 {}
-    impl<D: Dim> System<f64, OVector<f64, D>> for Test4
+    impl<D: Dim> System<f32, OVector<f32, D>> for Test4
     where
         DefaultAllocator: Allocator<D>,
     {
-        fn system(&self, x: f64, y: &OVector<f64, D>, dy: &mut OVector<f64, D>) {
+        fn system(&self, x: f32, y: &OVector<f32, D>, dy: &mut OVector<f32, D>) {
             dy[0] = (5. * x * x - y[0]) / (x + y[0]).exp();
         }
 
-        fn solout(&mut self, x: f64, _y: &OVector<f64, D>, _dy: &OVector<f64, D>) -> bool {
+        fn solout(&mut self, x: f32, _y: &OVector<f32, D>, _dy: &OVector<f32, D>) -> bool {
             x >= 0.5
         }
     }
@@ -252,9 +252,9 @@ mod tests {
         let mut stepper = Rk4::new(system, 0., Vector1::new(1.), 1., 0.1);
         let _ = stepper.integrate();
         let out = stepper.y_out();
-        assert!((&out[5][0] - 0.913059839).abs() < 1.0E-9);
-        assert!((&out[8][0] - 0.9838057659).abs() < 1.0E-9);
-        assert!((&out[10][0] - 1.0715783953).abs() < 1.0E-9);
+        assert!((&out[5][0] - 0.913059839).abs() < 1.0E-6);
+        assert!((&out[8][0] - 0.9838057659).abs() < 1.0E-6);
+        assert!((&out[10][0] - 1.0715783953).abs() < 1.0E-6);
         assert_eq!(out.len(), 11);
     }
 
@@ -265,10 +265,10 @@ mod tests {
         let _ = stepper.integrate();
 
         let x = stepper.x_out();
-        assert!((*x.last().unwrap() - 0.5).abs() < 1.0E-9);
+        assert!((*x.last().unwrap() - 0.5).abs() < 1.0E-6);
 
         let out = stepper.y_out();
-        assert!((&out[5][0] - 0.913059839).abs() < 1.0E-9);
+        assert!((&out[5][0] - 0.913059839).abs() < 1.0E-6);
         assert_eq!(out.len(), 6);
     }
 
@@ -302,8 +302,8 @@ mod tests {
         let mut stepper = Rk4::new(system, 0., DVector::from(vec![1.]), 1., 0.1);
         let _ = stepper.integrate();
         let out = stepper.y_out();
-        assert!((&out[5][0] - 0.913059839).abs() < 1.0E-9);
-        assert!((&out[8][0] - 0.9838057659).abs() < 1.0E-9);
-        assert!((&out[10][0] - 1.0715783953).abs() < 1.0E-9);
+        assert!((&out[5][0] - 0.913059839).abs() < 1.0E-6);
+        assert!((&out[8][0] - 0.9838057659).abs() < 1.0E-6);
+        assert!((&out[10][0] - 1.0715783953).abs() < 1.0E-6);
     }
 }

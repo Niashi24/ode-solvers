@@ -12,7 +12,7 @@ use thiserror::Error;
 
 /// Trait needed to be implemented by the user
 ///
-/// The type parameter T should be either `f32` or `f64`, the trait [FloatNumber] is used
+/// The type parameter T should be either `f32` or `f32`, the trait [FloatNumber] is used
 /// internally to allow generic code.
 ///
 /// The type parameter V is a state vector. To have an easy start it is recommend to use [nalgebra] vectors.
@@ -21,7 +21,7 @@ use thiserror::Error;
 /// use ode_solvers::{System, SVector, Vector3};
 ///
 /// // A predefined type for a vector (works from 1..6)
-/// type Precision = f64;
+/// type Precision = f32;
 /// type State = Vector3<Precision>;
 /// type MySystem = dyn System<Precision, State>;
 ///
@@ -46,15 +46,15 @@ where
 pub struct SolverResult<T, V>(Vec<T>, Vec<V>);
 
 /// This trait combines several traits that are useful
-/// when writing generic code that shall work in f32 and f64
+/// when writing generic code that shall work in f32 and f32
 ///
-/// It is only implemented for f32 and f64 yet.
+/// It is only implemented for f32 and f32 yet.
 pub trait FloatNumber:
     Copy
     + Float
     + NumCast
     + FromPrimitive
-    + SubsetOf<f64>
+    + SubsetOf<f32>
     + Scalar
     + ClosedAdd
     + ClosedMul
@@ -70,11 +70,11 @@ pub trait FloatNumber:
 {
 }
 
+// /// Implementation of the SolverNumFloat trait for f32
+// impl FloatNumber for f32 {}
+
 /// Implementation of the SolverNumFloat trait for f32
 impl FloatNumber for f32 {}
-
-/// Implementation of the SolverNumFloat trait for f64
-impl FloatNumber for f64 {}
 
 impl<T, V> SolverResult<T, V> {
     pub fn new(x: Vec<T>, y: Vec<V>) -> Self {
@@ -119,11 +119,11 @@ pub enum OutputType {
 #[derive(Debug, Error)]
 pub enum IntegrationError {
     #[error("Stopped at x = {x}. Need more than {n_step} steps.")]
-    MaxNumStepReached { x: f64, n_step: u32 },
+    MaxNumStepReached { x: f32, n_step: u32 },
     #[error("Stopped at x = {x}. Step size underflow.")]
-    StepSizeUnderflow { x: f64 },
+    StepSizeUnderflow { x: f32 },
     #[error("The problem seems to become stiff at x = {x}.")]
-    StiffnessDetected { x: f64 },
+    StiffnessDetected { x: f32 },
 }
 
 /// Contains some statistics of the integration.

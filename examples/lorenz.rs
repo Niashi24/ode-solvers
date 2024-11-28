@@ -10,8 +10,8 @@ use std::{
     path::Path,
 };
 
-type State = Vector3<f64>;
-type Time = f64;
+type State = Vector3<f32>;
+type Time = f32;
 
 fn main() {
     // Initial state
@@ -40,12 +40,12 @@ fn main() {
 }
 
 struct LorenzAttractor {
-    sigma: f64,
-    beta: f64,
-    rho: f64,
+    sigma: f32,
+    beta: f32,
+    rho: f32,
 }
 
-impl ode_solvers::System<f64, State> for LorenzAttractor {
+impl ode_solvers::System<f32, State> for LorenzAttractor {
     fn system(&self, _t: Time, y: &State, dy: &mut State) {
         dy[0] = self.sigma * (y[1] - y[0]);
         dy[1] = y[0] * (self.rho - y[2]) - y[1];

@@ -2,8 +2,8 @@ use ode_solvers::dop853::*;
 use ode_solvers::*;
 
 // Define type aliases for the state and time types
-type State = Vector6<f64>;
-type Time = f64;
+type State = Vector6<f32>;
+type Time = f32;
 
 use std::{
     fs::{create_dir_all, File},
@@ -38,10 +38,10 @@ fn main() {
 }
 
 struct ThreeBodyProblem {
-    mu: f64,
+    mu: f32,
 }
 
-impl ode_solvers::System<f64, State> for ThreeBodyProblem {
+impl ode_solvers::System<f32, State> for ThreeBodyProblem {
     fn system(&self, _t: Time, y: &State, dy: &mut State) {
         let d = ((y[0] + self.mu).powi(2) + y[1].powi(2) + y[2].powi(2)).sqrt();
         let r = ((y[0] - 1.0 + self.mu).powi(2) + y[1].powi(2) + y[2].powi(2)).sqrt();

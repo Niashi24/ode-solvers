@@ -4,11 +4,11 @@
 use ode_solvers::dopri5::*;
 use ode_solvers::*;
 
-type State = DVector<f64>;
-type Time = f64;
+type State = DVector<f32>;
+type Time = f32;
 
 use std::{
-    f64::consts::PI,
+    f32::consts::PI,
     fs::{create_dir_all, File},
     io::BufWriter,
     io::Write,
@@ -19,7 +19,7 @@ fn main() {
     // Create the structure containing the ODEs.
     let system = KeplerOrbit { mu: 398600.435436 };
 
-    let a: f64 = 20000.0;
+    let a: f32 = 20000.0;
     let period = 2.0 * PI * (a.powi(3) / system.mu).sqrt();
 
     // Orbit with: a = 20000km, e = 0.7, i = 35 deg, raan = 100 deg, arg_per = 65 deg, true_an = 30 deg.
@@ -49,10 +49,10 @@ fn main() {
 }
 
 struct KeplerOrbit {
-    mu: f64,
+    mu: f32,
 }
 
-impl ode_solvers::System<f64, State> for KeplerOrbit {
+impl ode_solvers::System<f32, State> for KeplerOrbit {
     // Equations of motion of the system
     fn system(&self, _t: Time, y: &State, dy: &mut State) {
         let r = (y[0] * y[0] + y[1] * y[1] + y[2] * y[2]).sqrt();
